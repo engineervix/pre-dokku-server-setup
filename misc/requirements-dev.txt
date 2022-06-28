@@ -1,0 +1,2 @@
+commitizen==2.27.1
+tomli==2.0.1
