@@ -237,10 +237,10 @@ export VISUAL=vim
 export EDITOR="$VISUAL"
 
 # tinypng
-export TINYPNG_API_KEY=''
+# export TINYPNG_API_KEY=''
 
 # sendgrid
-export SENDGRID_API_KEY=''
+# export SENDGRID_API_KEY=''
 
 # snap
 export PATH="$PATH:/snap/bin"
