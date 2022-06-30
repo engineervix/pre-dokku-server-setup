@@ -1,14 +1,37 @@
 # Ubuntu Server Setup for Dokku
 
-Still a work in progress ...
-
 > Initial Ubuntu VPS server setup prior to installation of [Dokku](https://dokku.com/).
+
+[![ShellCheck](https://github.com/engineervix/pre-dokku-server-setup/actions/workflows/main.yml/badge.svg)](https://github.com/engineervix/pre-dokku-server-setup/actions/workflows/main.yml)
+[![last commit](https://badgen.net/github/last-commit/engineervix//pre-dokku-server-setup)](https://github.com/engineervix/pre-dokku-server-setup/commits/)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+![License](https://img.shields.io/github/license/engineervix/pre-dokku-server-setup)
+[![works badge](https://cdn.jsdelivr.net/gh/nikku/works-on-my-machine@v0.2.0/badge.svg)](https://github.com/nikku/works-on-my-machine)
+
+![Important](https://source.unsplash.com/wL7aOdzTtcY/640x320)
+
+**Note** ⚠️ This is still a work in progress ... hasn't yet been tested on an actual server!
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Introduction](#introduction)
+- [Getting Started](#getting-started)
+- [Post setup actions](#post-setup-actions)
+- [Supported Ubuntu versions](#supported-ubuntu-versions)
+- [Running tests](#running-tests)
+- [Author](#author)
+- [Contributing 🤝](#contributing-)
+- [Show your support](#show-your-support)
+- [License 📝](#license-)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Introduction
 
 This script uses Jason Hee's excellent [Ubuntu setup script](https://github.com/jasonheecs/ubuntu-server-setup) as a starting point for provisioning Ubuntu Servers in preparation for installation of [Dokku](https://dokku.com/).
 
-**Why not just use Jason Hee's script**?
+**Why not just use Jason Hee's script 🤔**?
 
 Jason Hee's script is perfect! What this script does is that it adds some extra things that such as ...
 
@@ -34,10 +57,106 @@ sudo DOKKU_TAG=v0.27.6 bash bootstrap.sh
 
 ## Getting Started
 
-...
+1. spin up a VPS using your preferred service provider ([DigitalOcean](https://www.digitalocean.com/), [Hetzner](https://www.hetzner.com/), [Linode](https://www.linode.com/), [Vultr](https://www.vultr.com/), etc.), ensuring that you
+   - set the server's hostname to the domain that you'll be using as [global domain on Dokku](https://dokku.com/docs/configuration/domains/). This will ensure `/etc/hostname` and the `hostname` command respond correctly (something Dokku relies on).
+   - specify an SSH key when bootstrapping your VPS
+2. Configure DNS.
+   - You'll need an A record for the naked domain (the "@" one) pointing to your IP with the lowest TTL possible
+   - You'll need a wildcard A record (use '`*`') pointing to your IP with the lowest TTL possible
+3. SSH into your server, clone this repository (& submodules) into your home directory, and run the setup script:
 
-# TODO
+   ```bash
+   cd ~
+   git clone --recurse-submodules https://github.com/engineervix/pre-dokku-server-setup.git \
+   && cd pre-dokku-server-setup \
+   && bash setup.sh
+   ```
 
-- [ ] figure out how to let user decide on sendgrid/mailjet
-- [ ] figure out how to allow user decide on installation of texlive or not
-- [ ] finish up these docs
+   If you run the script with no arguments, it will neither setup `postfix` on your server nor download `texlife-full`. The following optional arguments are available (you can simply run `bash setup.sh -h` or `-help`):
+
+   ```txt
+   --mailgrid     --> setup postfix with MailJest
+   --sendgrid     --> setup postfix with MailJect
+   --texlivefull  --> install texlive-full
+   ```
+
+   **Note**: if you select both `--mailgrid` and `sendgrid`, the script will terminate with an exit zero code, and you'd have to try again.
+
+When the setup script is run, you will be prompted
+
+- to enter the username of the new user account
+- to add a public ssh key (which should be from your local machine) for the new account. You can display it on your local terminal via (assuming it's called `id_rsa.pub` and it's in the `~/.ssh/` directory.
+
+  Feel free to change the path / name if you saved it in a different location / named it differently) ...
+
+  ```bash
+  cat ~/.ssh/id_rsa.pub
+  ```
+
+  ... then copy it and paste it in the terminal on your server.
+
+  **Note** » If you don't have an existing key and you would like to generate one, or perhaps you already have one and would like to generate another ssh key from your local machine:
+
+  ```bash
+  ssh-keygen -t rsa
+  ```
+
+- to specify a [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for the server. It will be set to 'Africa/Lusaka' if you do not specify a value.
+- When setting up Postfix and configuring System Updates and Notification Settings, you'll be asked for
+
+  - the System Administrator's email address (to **receive** notifications)
+  - the email address that'll be associated with **send**ing emails. You need to use a Mailjet OR Sendgrid verified email address for this.
+
+  > This script assumes that the email address you supply is associated with your Mailjet domain. `myhostname` is therefore extracted from this email address. So, if your "mail_from" email address is josh@example.co.zm, then example.co.zm will be used as `myhostname` in the Postfix setup.
+
+## Post setup actions
+
+- [ ] Reboot and login as the new user
+- [ ] Test your email configuration. See example below:
+- [ ] On Ubuntu 22.04, you'll need to fix your vim config, see <https://github.com/amix/vimrc/issues/645#issuecomment-1120374288>
+- [ ] Install Dokku, setup your projects and deploy 🚀
+
+Here's an example to test that your email works. I use the awesome [mail-tester.com](https://www.mail-tester.com) and with this configuration you should get a 10/10 score.
+
+```bash
+sendmail -f sender@example.com recipient@someplace.com
+From: sender@example.com
+To: recipient@someplace.com
+Subject: This looks like a test
+Hi there, this is my message, and I am sending it to you!
+.
+```
+
+## Supported Ubuntu versions
+
+Jason Hee's excellent [Ubuntu setup script](https://github.com/jasonheecs/ubuntu-server-setup) has been tested against Ubuntu 14.04, Ubuntu 16.04, Ubuntu 18.04, Ubuntu 20.04 and 22.04. However, this project primarily targets **Ubuntu 20.04** and **Ubuntu 22.04**.
+
+## Running tests
+
+Tests are run against a set of Vagrant VMs. To run the tests, run the following in the project's directory:
+
+`./tests/tests.sh`
+
+## Author
+
+👤 **Victor Miti**
+
+- Blog: <https://importthis.tech>
+- Twitter: [![Twitter: engineervix](https://img.shields.io/twitter/follow/engineervix.svg?style=social)](https://twitter.com/engineervix)
+- Github: [@engineervix](https://github.com/engineervix)
+
+## Contributing 🤝
+
+Contributions, issues and feature requests are most welcome!
+
+Feel free to check the [issues page](https://github.com/engineervix/pre-dokku-server-setup/issues) and take a look at the [contributing guide](CONTRIBUTING.md) before you get started
+
+## Show your support
+
+Please give a ⭐️ if you found this project helpful!
+
+## License 📝
+
+Copyright © 2022 [Victor Miti](https://github.com/engineervix).
+
+This project is licensed under the terms of the [MIT](https://github.com/engineervix/pre-dokku-server-setup/blob/main/LICENSE) license.
