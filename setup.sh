@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # =================================================================================================
-# description:  Initial Ubuntu VPS server setup prior to installation of Dokku (tested on 20.04)
+# description:  Initial Ubuntu VPS server setup prior to installation of Dokku (tested on 22.04)
 # author:       Victor Miti <https://github.com/engineervix>
 # url:          <https://github.com/engineervix/pre-dokku-server-setup>
 # version:      0.0.0
@@ -9,6 +9,9 @@
 # =================================================================================================
 
 set -e
+
+# shellcheck disable=SC2034
+ARGPARSE_DESCRIPTION="Initial Ubuntu VPS server setup prior to installation of Dokku"
 
 function getCurrentDir() {
     local current_dir="${BASH_SOURCE%/*}"
@@ -19,11 +22,28 @@ function getCurrentDir() {
 function includeDependencies() {
     # shellcheck source=./setupLibrary.sh
     source "${current_dir}/setupLibrary.sh"
+
+    # shellcheck source=./argparse.bash
+    source "${current_dir}/argparse.bash" || exit 1
 }
 
 current_dir=$(getCurrentDir)
 includeDependencies
 output_file="output.log"
+
+argparse "$@" <<EOF || exit 1
+parser.add_argument('-s', '--sendgrid', action='store_true',
+                    default=False, help='setup mail with Sendgrid [default %(default)s]')
+parser.add_argument('-m', '--mailjet', action='store_true',
+                    default=False, help='setup mail with MailJet [default %(default)s]')
+parser.add_argument('-t', '--texlive', action='store_true',
+                    default=False, help='install texlive-full [default %(default)s]')
+EOF
+
+if [[ $SENDGRID && $MAILJET ]]; then
+    echo -e "\e[31mYou cannot select both Sendgrid & MailJet... \e[00m"
+    exit 1
+fi
 
 function main() {
     read -rp "Do you want to create a new non-root user? (Recommended) [Y/N] " createUser
@@ -74,8 +94,12 @@ function main() {
     setupPython
     setupVim
     setupTmux
-    setupMailWithSendgrid
-    setupMailwithMailJet
+    if [[ $SENDGRID ]]; then
+        setupMailWithSendgrid
+    fi
+    if [[ $MAILJET ]]; then
+        setupMailwithMailJet
+    fi
     configureSystemUpdatesAndLogs
     furtherHardening
     miscellaneousTasks
@@ -447,11 +471,9 @@ function furtherHardening() {
 
 function miscellaneousTasks() {
 
-    read -rp 'temporary folder: ' TEMP_DIR
-
     # let's create some folders
     sudo -i -u "${username}" -H bash -c "mkdir -p /home/${username}/Downloads"
-    sudo -i -u "${username}" -H bash -c "mkdir -p /home/${username}/${TEMP_DIR}"
+    sudo -i -u "${username}" -H bash -c "mkdir -p /home/${username}/_TEMP"
 
     # bring in the custom scripts and geckodriver (for selenium)
     sudo cp -v extras/shrinkpdf /home/"${username}"/bin/
@@ -491,9 +513,10 @@ function installExtraPackages() {
     # https://volta.sh/
     sudo -i -u "${username}" -H bash -c "curl https://get.volta.sh | bash"
 
-    # install texlive-full
-    # TODO: make this optional
-    sudo apt install texlive-full -y  # this may take a while
+    if [[ $TEXLIVE ]]; then
+        # install texlive-full
+        sudo apt install texlive-full -y  # this may take a while
+    fi
 
 }
 
