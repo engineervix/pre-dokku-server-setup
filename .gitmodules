@@ -1,0 +1,9 @@
+[submodule ".janus/vim"]
+	path = .janus/vim
+	url = https://github.com/dracula/vim.git
+[submodule ".janus/jellygrass.vim"]
+	path = .janus/jellygrass.vim
+	url = https://github.com/chr4/jellygrass.vim.git
+[submodule ".janus/vim-kolor"]
+	path = .janus/vim-kolor
+	url = https://github.com/zeis/vim-kolor.git
