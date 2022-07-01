@@ -2,7 +2,7 @@
 
 set -e
 
-while getopts "s" opt; do
+while getopts "skip" opt; do
     # shellcheck disable=SC2213,SC2220
     case $opt in
     s) SKIP_SETUP=true ;;
