@@ -72,12 +72,12 @@ sudo DOKKU_TAG=v0.27.6 bash bootstrap.sh
    && bash setup.sh
    ```
 
-   If you run the script with no arguments, it will neither setup `postfix` on your server nor download `texlife-full`. The following optional arguments are available (you can simply run `bash setup.sh -h` or `-help`):
+   **Note**: If you run the script with no arguments, it will neither setup `postfix` on your server nor download `texlife-full`. The following optional arguments are available (for help, you can simply run `bash setup.sh -h` or `bash setup.sh --help`):
 
    ```txt
-   --mailgrid     --> setup postfix with MailJest
-   --sendgrid     --> setup postfix with MailJect
-   --texlivefull  --> install texlive-full
+   --mailgrid     # --> setup postfix with MailJest
+   --sendgrid     # --> setup postfix with MailJect
+   --texlivefull  # --> install texlive-full
    ```
 
    **Note**: if you select both `--mailgrid` and `sendgrid`, the script will terminate with an exit zero code, and you'd have to try again.
