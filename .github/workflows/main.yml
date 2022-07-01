@@ -43,7 +43,7 @@ jobs:
         run: |
           echo "${{ github.ref }}"
           bash -c 'shopt -s globstar; shellcheck ./*.sh; shellcheck ./tests/*.sh'
-          bash tests/unit-tests.sh -skip
+          bash tests/unit-tests.sh -s
 
   # Runs all steps on the VM
   # Creates a GitHub Release when the test job succeeds, and only on pushes to tags.
