@@ -96,11 +96,13 @@ function main() {
     setupTmux
     if [[ $SENDGRID ]]; then
         setupMailWithSendgrid
+        configureUpdatesNotificationsAndLogwatch
     fi
     if [[ $MAILJET ]]; then
         setupMailwithMailJet
+        configureUpdatesNotificationsAndLogwatch
     fi
-    configureSystemUpdatesAndLogs
+    configureUnattendedUpgrades
     furtherHardening
     miscellaneousTasks
     installExtraPackages
@@ -384,7 +386,7 @@ function setupMailwithMailJet() {
     sudo postfix reload
 }
 
-function configureSystemUpdatesAndLogs() {
+function configureUpdatesNotificationsAndLogwatch() {
     # Updates notification and other necessary sysadmin stuff
 
     # https://help.ubuntu.com/lts/serverguide/automatic-updates.html.en
@@ -396,26 +398,6 @@ function configureSystemUpdatesAndLogs() {
     echo "to be notified (via email) of any impending updates, I'll update \e[35mEMAIL=\e[00m ..."
     sudo sed -i "s/^EMAIL=\"\"/EMAIL=\"$root_email\"/" /etc/apticron/apticron.conf
     echo -e "\e[35m===========================================================\e[00m"
-    sudo apt install apt-show-versions -y
-    # sudo dpkg-reconfigure -plow unattended-upgrades
-    echo "unattended-upgrades       unattended-upgrades/enable_auto_updates boolean true" | sudo debconf-set-selections; sudo dpkg-reconfigure -f noninteractive unattended-upgrades
-    echo -e "\e[35m===========================================================\e[00m"
-    echo "I am now configuring the Unattended Upgrades package ..."
-    #   sudo vim /etc/apt/apt.conf.d/50unattended-upgrades
-    # 1. Unattended-Upgrade::DevRelease "auto"                        » Unattended-Upgrade::DevRelease\ "false"
-    # 2. //Unattended-Upgrade::Mail ""                                » Unattended-Upgrade::Mail\ "$root_email"
-    # 3. //Unattended-Upgrade::Remove-Unused-Kernel-Packages\ "true"  » Unattended-Upgrade::Remove-Unused-Kernel-Packages\ "true"
-    # 4. //Unattended-Upgrade::Remove-New-Unused-Dependencies\ "true" » Unattended-Upgrade::Remove-New-Unused-Dependencies\ "true"
-    # 5. //Unattended-Upgrade::Automatic-Reboot\ "false"              » Unattended-Upgrade::Automatic-Reboot\ "true"
-    # 6. //Unattended-Upgrade::Automatic-Reboot-Time\ "02:00"         » Unattended-Upgrade::Automatic-Reboot-Time\ "02:17"
-    sudo sed -i 's/^Unattended-Upgrade::DevRelease\ "auto"/Unattended-Upgrade::DevRelease\ "false"/' /etc/apt/apt.conf.d/50unattended-upgrades
-    sudo sed -i "s#^//Unattended-Upgrade::Mail\ \"\"#Unattended-Upgrade::Mail\ \"$root_email\"#" /etc/apt/apt.conf.d/50unattended-upgrades
-    sudo sed -i 's#^//Unattended-Upgrade::Remove-Unused-Kernel-Packages\ "true"#Unattended-Upgrade::Remove-Unused-Kernel-Packages\ "true"#' /etc/apt/apt.conf.d/50unattended-upgrades
-    sudo sed -i 's#^//Unattended-Upgrade::Remove-New-Unused-Dependencies\ "true"#Unattended-Upgrade::Remove-New-Unused-Dependencies\ "true"#' /etc/apt/apt.conf.d/50unattended-upgrades
-    sudo sed -i 's#^//Unattended-Upgrade::Automatic-Reboot\ "false"#Unattended-Upgrade::Automatic-Reboot\ "true"#' /etc/apt/apt.conf.d/50unattended-upgrades
-    sudo sed -i 's#^//Unattended-Upgrade::Automatic-Reboot-Time\ "02:00"#Unattended-Upgrade::Automatic-Reboot-Time\ "02:17"#' /etc/apt/apt.conf.d/50unattended-upgrades
-    echo -e "\e[35m===========================================================\e[00m"
-    echo "APT::Periodic::AutocleanInterval \"7\";" | sudo tee -a /etc/apt/apt.conf.d/20auto-upgrades
 
     # logwatch
     # https://www.howtoforge.com/tutorial/logwatch-installation-on-debian-and-ubuntu/
@@ -439,6 +421,30 @@ function configureSystemUpdatesAndLogs() {
     sudo sed -i 's/^Detail\ =\ Low/Detail\ =\ Med/' /etc/logwatch/conf/logwatch.conf
     echo -e "\e[35m===========================================================\e[00m"
 }
+
+function configureUnattendedUpgrades() {
+    sudo apt install apt-show-versions -y
+    # sudo dpkg-reconfigure -plow unattended-upgrades
+    echo "unattended-upgrades       unattended-upgrades/enable_auto_updates boolean true" | sudo debconf-set-selections; sudo dpkg-reconfigure -f noninteractive unattended-upgrades
+    echo -e "\e[35m===========================================================\e[00m"
+    echo "I am now configuring the Unattended Upgrades package ..."
+    #   sudo vim /etc/apt/apt.conf.d/50unattended-upgrades
+    # 1. Unattended-Upgrade::DevRelease "auto"                        » Unattended-Upgrade::DevRelease\ "false"
+    # 2. //Unattended-Upgrade::Mail ""                                » Unattended-Upgrade::Mail\ "$root_email"
+    # 3. //Unattended-Upgrade::Remove-Unused-Kernel-Packages\ "true"  » Unattended-Upgrade::Remove-Unused-Kernel-Packages\ "true"
+    # 4. //Unattended-Upgrade::Remove-New-Unused-Dependencies\ "true" » Unattended-Upgrade::Remove-New-Unused-Dependencies\ "true"
+    # 5. //Unattended-Upgrade::Automatic-Reboot\ "false"              » Unattended-Upgrade::Automatic-Reboot\ "true"
+    # 6. //Unattended-Upgrade::Automatic-Reboot-Time\ "02:00"         » Unattended-Upgrade::Automatic-Reboot-Time\ "02:17"
+    sudo sed -i 's/^Unattended-Upgrade::DevRelease\ "auto"/Unattended-Upgrade::DevRelease\ "false"/' /etc/apt/apt.conf.d/50unattended-upgrades
+    sudo sed -i "s#^//Unattended-Upgrade::Mail\ \"\"#Unattended-Upgrade::Mail\ \"$root_email\"#" /etc/apt/apt.conf.d/50unattended-upgrades
+    sudo sed -i 's#^//Unattended-Upgrade::Remove-Unused-Kernel-Packages\ "true"#Unattended-Upgrade::Remove-Unused-Kernel-Packages\ "true"#' /etc/apt/apt.conf.d/50unattended-upgrades
+    sudo sed -i 's#^//Unattended-Upgrade::Remove-New-Unused-Dependencies\ "true"#Unattended-Upgrade::Remove-New-Unused-Dependencies\ "true"#' /etc/apt/apt.conf.d/50unattended-upgrades
+    sudo sed -i 's#^//Unattended-Upgrade::Automatic-Reboot\ "false"#Unattended-Upgrade::Automatic-Reboot\ "true"#' /etc/apt/apt.conf.d/50unattended-upgrades
+    sudo sed -i 's#^//Unattended-Upgrade::Automatic-Reboot-Time\ "02:00"#Unattended-Upgrade::Automatic-Reboot-Time\ "02:17"#' /etc/apt/apt.conf.d/50unattended-upgrades
+    echo -e "\e[35m===========================================================\e[00m"
+    echo "APT::Periodic::AutocleanInterval \"7\";" | sudo tee -a /etc/apt/apt.conf.d/20auto-upgrades
+}
+
 
 function furtherHardening() {
     # https://www.digitalocean.com/community/questions/best-practices-for-hardening-new-sever-in-2017
