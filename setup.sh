@@ -498,6 +498,15 @@ function installExtraPackages() {
     # sudo apt install default-jre -y
     sudo apt install openjdk-8-jdk -y
 
+    # Hetzner's Ubuntu image doesn't seem to have snapd installed by default
+    # shellcheck disable=SC2046
+    if [ $(dpkg-query -W -f='${Status}' snapd 2>/dev/null | grep -c "ok installed") -eq 0 ];
+    then
+        sudo apt install snapd -y
+        sudo snap install core
+        sudo snap refresh core
+    fi
+
     # pdftk
     sudo snap install pdftk
 
