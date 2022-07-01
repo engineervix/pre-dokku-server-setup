@@ -127,6 +127,7 @@ function testNTP() {
         # sudo rm -v /etc/systemd/system/systemd-timesyncd.service
         sudo systemctl unmask systemd-timesyncd
         sudo systemctl daemon-reload
+        sudo apt-get update -y
         sudo apt-get install systemd-timesyncd -y
         sudo systemctl start systemd-timesyncd
         # sudo systemctl status systemd-timesyncd
