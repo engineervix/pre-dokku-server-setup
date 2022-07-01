@@ -7,3 +7,6 @@
 [submodule ".janus/vim-kolor"]
 	path = .janus/vim-kolor
 	url = https://github.com/zeis/vim-kolor.git
+[submodule "tests/lib"]
+	path = tests/lib
+	url = https://github.com/jasonheecs/BashScriptTestingLibrary.git
