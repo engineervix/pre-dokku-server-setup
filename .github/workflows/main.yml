@@ -32,12 +32,6 @@ jobs:
         with:
           submodules: recursive
 
-      # - name: Setup Submodules
-      #   run: |
-      #     # use sed to replace the SSH URL with the public URL, then init and update submodules
-      #     sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-      #     git submodule update --init --recursive
-
       - name: Run tests
         shell: bash
         run: |
