@@ -53,12 +53,12 @@ EOF
     # Define variables corresponding to the options if the args can be
     # parsed without errors; otherwise, print the text of the error
     # message.
-    if python "$argparser" "$@" &> /dev/null; then
+    if python3 "$argparser" "$@" &> /dev/null; then
         # shellcheck disable=SC2046
-        eval $(python "$argparser" "$@")
+        eval $(python3 "$argparser" "$@")
         retval=0
     else
-        python "$argparser" "$@"
+        python3 "$argparser" "$@"
         retval=1
     fi
 
