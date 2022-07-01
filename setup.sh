@@ -470,8 +470,10 @@ function furtherHardening() {
     sudo apt update
     sudo apt install lynis -y
 
-    # https://www.theurbanpenguin.com/detecting-rootkits-with-rkhunter-in-ubuntu-18-04/
-    sudo apt install -y rkhunter
+    if [[ $SENDGRID || $MAILJET ]]; then
+        # https://www.theurbanpenguin.com/detecting-rootkits-with-rkhunter-in-ubuntu-18-04/
+        sudo apt install -y rkhunter
+    fi
 
     sudo lynis audit system
 }
