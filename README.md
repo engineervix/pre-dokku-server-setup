@@ -3,7 +3,7 @@
 > Initial Ubuntu VPS server setup prior to installation of [Dokku](https://dokku.com/).
 
 [![ShellCheck](https://github.com/engineervix/pre-dokku-server-setup/actions/workflows/main.yml/badge.svg)](https://github.com/engineervix/pre-dokku-server-setup/actions/workflows/main.yml)
-[![last commit](https://badgen.net/github/last-commit/engineervix/pre-dokku-server-setup)](https://github.com/engineervix/pre-dokku-server-setup/commits/)
+[![last commit](https://img.shields.io/github/last-commit/engineervix/pre-dokku-server-setup)](https://github.com/engineervix/pre-dokku-server-setup/commits/)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 ![License](https://img.shields.io/github/license/engineervix/pre-dokku-server-setup)
 [![works badge](https://cdn.jsdelivr.net/gh/nikku/works-on-my-machine@v0.2.0/badge.svg)](https://github.com/nikku/works-on-my-machine)
