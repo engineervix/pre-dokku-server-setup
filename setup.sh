@@ -513,14 +513,14 @@ function installExtraPackages() {
     # ffmpeg, youtube-dl and more
     sudo apt install ffmpeg -y
     sudo -H pip3 install youtube-dl
+    sudo -H pip3 install scour
+    sudo -H pip3 install yq
     sudo apt install libreoffice-common aspell hunspell -y
     sudo apt install jq shellcheck -y
     sudo apt install inkscape -y
     sudo apt install autoconf automake autotools-dev -y
-    sudo apt install ocrmypdf xvfb rdiff-backup rclone apt-clone firefox -y
+    sudo apt install ocrmypdf xvfb rdiff-backup rclone apt-clone -y
     sudo apt install pandoc sqlite3 poppler-utils ncdu libtool dos2unix -y
-    sudo -H pip3 install scour
-    sudo -H pip3 install yq
     
     # https://github.com/travis-ci/travis.rb
     gem install travis --no-document
