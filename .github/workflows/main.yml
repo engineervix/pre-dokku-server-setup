@@ -27,7 +27,7 @@ jobs:
 
     steps:
       - name: Checkout Code Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         # Use https (public access) instead of git for git-submodules.
         with:
           submodules: recursive
