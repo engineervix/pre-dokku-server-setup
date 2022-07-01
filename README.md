@@ -61,7 +61,7 @@ sudo DOKKU_TAG=v0.27.6 bash bootstrap.sh
    - set the server's hostname to the domain that you'll be using as [global domain on Dokku](https://dokku.com/docs/configuration/domains/). This will ensure `/etc/hostname` and the `hostname` command respond correctly (something Dokku relies on).
    - specify an SSH key when bootstrapping your VPS
 2. Configure DNS.
-   - You'll need an A record for the naked domain (the "@" one) pointing to your IP with the lowest TTL possible
+   - You'll need an A record for the naked domain (the "`@`" one) pointing to your IP with the lowest TTL possible
    - You'll need a wildcard A record (use '`*`') pointing to your IP with the lowest TTL possible
 3. SSH into your server, clone this repository (& submodules) into your home directory, and run the setup script:
 
@@ -80,7 +80,7 @@ sudo DOKKU_TAG=v0.27.6 bash bootstrap.sh
    --texlive   # install texlive-full
    ```
 
-   **Note**: if you select both `--mailjet` and `--sendgrid`, the script will terminate with an exit zero code, and you'd have to try again.
+   **Note**: if you select both `--mailjet` and `--sendgrid`, the script will terminate with an `exit 1` code, and you'd have to try again.
 
 When the setup script is run, you will be prompted
 
