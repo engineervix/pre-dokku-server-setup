@@ -72,15 +72,15 @@ sudo DOKKU_TAG=v0.27.6 bash bootstrap.sh
    && bash setup.sh
    ```
 
-   **Note**: If you run the script with no arguments, it will neither setup `postfix` on your server nor download `texlife-full`. The following optional arguments are available (for help, you can simply run `bash setup.sh -h` or `bash setup.sh --help`):
+   **Note**: If you run the script with no arguments, it will neither setup `postfix` on your server nor download `texlive-full`. The following optional arguments are available (for help, you can simply run `bash setup.sh -h` or `bash setup.sh --help`):
 
-   ```txt
-   --mailgrid     # --> setup postfix with MailJest
-   --sendgrid     # --> setup postfix with MailJect
-   --texlivefull  # --> install texlive-full
+   ```shell
+   --mailjet   # setup postfix with MailJest
+   --sendgrid  # setup postfix with MailJect
+   --texlive   # install texlive-full
    ```
 
-   **Note**: if you select both `--mailgrid` and `sendgrid`, the script will terminate with an exit zero code, and you'd have to try again.
+   **Note**: if you select both `--mailjet` and `--sendgrid`, the script will terminate with an exit zero code, and you'd have to try again.
 
 When the setup script is run, you will be prompted
 
@@ -107,7 +107,7 @@ When the setup script is run, you will be prompted
   - the System Administrator's email address (to **receive** notifications)
   - the email address that'll be associated with **send**ing emails. You need to use a Mailjet OR Sendgrid verified email address for this.
 
-  > This script assumes that the email address you supply is associated with your Mailjet domain. `myhostname` is therefore extracted from this email address. So, if your "mail_from" email address is josh@example.co.zm, then example.co.zm will be used as `myhostname` in the Postfix setup.
+  > This script assumes that the email address you supply is associated with your Mailjet/Sendgrid domain. `myhostname` is therefore extracted from this email address. So, if your "mail_from" email address is josh@example.co.zm, then example.co.zm will be used as `myhostname` in the Postfix setup.
 
 ## Post setup actions
 
