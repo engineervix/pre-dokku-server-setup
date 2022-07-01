@@ -111,6 +111,7 @@ function main() {
 
     echo -e "\e[35mYou have installed ZSH $(zsh --version)\e[00m" 
     echo -e "\e[35mLet us now make ZSH your default shell ...\e[00m" 
+    # shellcheck disable=SC2230
     sudo -i -u "${username}" -H bash -c "chsh -s $(which zsh)"
 
     sudo mv -v "${current_dir}/${output_file}" /home/"${username}"/ && sudo chown -R "${username}":"${username}" /home/"${username}"/"${output_file}"
