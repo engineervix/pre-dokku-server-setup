@@ -76,7 +76,7 @@ sudo DOKKU_TAG=v0.27.6 bash bootstrap.sh
 
    ```shell
    --mailjet   # setup postfix with MailJest
-   --sendgrid  # setup postfix with MailJect
+   --sendgrid  # setup postfix with Sendgrid
    --texlive   # install texlive-full
    ```
 
