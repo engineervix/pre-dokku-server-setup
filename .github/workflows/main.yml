@@ -30,13 +30,13 @@ jobs:
         uses: actions/checkout@v2
         # Use https (public access) instead of git for git-submodules.
         with:
-          submodules: true
+          submodules: false
 
-      # - name: Setup Submodules
-      #   run: |
-      #     # use sed to replace the SSH URL with the public URL, then init and update submodules
-      #     sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-      #     git submodule update --init --recursive
+      - name: Setup Submodules
+        run: |
+          # use sed to replace the SSH URL with the public URL, then init and update submodules
+          sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+          git submodule update --init --recursive
 
       - name: Run tests
         shell: bash
