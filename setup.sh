@@ -308,8 +308,9 @@ function setupMailWithSendgrid() {
     # Now, we deal with /etc/postfix/sasl_passwd
     echo -e "\e[35m===========================================================\e[00m" 
     echo -e "\e[35m Please provide your Sendgrip API key for Postfix to use. \e[00m" 
-    echo -e "\e[35m NOTE: It will not be displayed in the terminal when you type / paste it in\e[00m" 
-    read -s -p -r "Sendgrid API key?: " sendgrid_api_key
+    echo -e "\e[35m NOTE: It will not be displayed in the terminal when you type / paste it in\e[00m"
+    # shellcheck disable=SC2162
+    read -s -p "Sendgrid API key?: " sendgrid_api_key
     echo "[smtp.sendgrid.net]:587 apikey:${sendgrid_api_key}" | sudo dd of=/etc/postfix/sasl_passwd
     echo -e "\e[35m===========================================================\e[00m" 
 
@@ -361,9 +362,11 @@ function setupMailwithMailJet() {
     # Now, we deal with /etc/postfix/sasl_passwd
     echo -e "\e[35m===========================================================\e[00m" 
     echo -e "\e[35m Please provide your Mailjet API key for Postfix to use. \e[00m" 
-    echo -e "\e[35m NOTE: It will not be displayed in the terminal when you type / paste it in\e[00m" 
-    read -s -p -r 'Mailjet API key?: ' mailjet_api_key
-    read -s -p -r 'Mailjet Secret key?: ' mailjet_secret_key
+    echo -e "\e[35m NOTE: It will not be displayed in the terminal when you type / paste it in\e[00m"
+    # shellcheck disable=SC2162
+    read -s -p 'Mailjet API key?: ' mailjet_api_key
+    # shellcheck disable=SC2162
+    read -s -p 'Mailjet Secret key?: ' mailjet_secret_key
     echo "[in-v3.mailjet.com]:587 ${mailjet_api_key}:${mailjet_secret_key}" | sudo dd of=/etc/postfix/sasl_passwd
     echo -e "\e[35m===========================================================\e[00m" 
 
