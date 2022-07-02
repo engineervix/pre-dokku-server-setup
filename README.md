@@ -6,7 +6,6 @@
 [![last commit](https://img.shields.io/github/last-commit/engineervix/pre-dokku-server-setup)](https://github.com/engineervix/pre-dokku-server-setup/commits/)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 ![License](https://img.shields.io/github/license/engineervix/pre-dokku-server-setup)
-[![works badge](https://cdn.jsdelivr.net/gh/nikku/works-on-my-machine@v0.2.0/badge.svg)](https://github.com/nikku/works-on-my-machine)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -15,6 +14,7 @@
 - [Getting Started](#getting-started)
 - [Post setup actions](#post-setup-actions)
 - [Supported Ubuntu versions](#supported-ubuntu-versions)
+- [TODO](#todo)
 - [Running tests](#running-tests)
 - [Author](#author)
 - [Contributing 🤝](#contributing-)
@@ -142,7 +142,14 @@ When the setup script is run, you will be prompted
 
 ## Supported Ubuntu versions
 
-Jason Hee's excellent [Ubuntu setup script](https://github.com/jasonheecs/ubuntu-server-setup) has been tested against Ubuntu 14.04, Ubuntu 16.04, Ubuntu 18.04, Ubuntu 20.04 and 22.04. However, this project primarily targets **Ubuntu 20.04** and **Ubuntu 22.04**.
+Jason Hee's excellent [Ubuntu setup script](https://github.com/jasonheecs/ubuntu-server-setup) has been tested against Ubuntu 14.04, Ubuntu 16.04, Ubuntu 18.04, Ubuntu 20.04 and 22.04. However, this project primarily targets **Ubuntu 20.04** and **Ubuntu 22.04** (It'll most likely also work on **18.04**).
+
+## TODO
+
+- [ ] Add notes on Dokku setup (or create a Dokku setup script)
+- [ ] Change the mail test to a one-liner
+- [ ] How to deal with `Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.`
+- [ ] Create a release
 
 ## Running tests
 
