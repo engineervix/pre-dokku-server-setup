@@ -93,7 +93,7 @@ When the setup script is run, you will be prompted
   **Note** » If you don't have an existing key and you would like to generate one, or perhaps you already have one and would like to generate another ssh key from your local machine:
 
   ```bash
-  ssh-keygen -t rsa
+  ssh-keygen -t ed25519 -C "your_email@example.com"
   ```
 
 - to specify a [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for the server. It will be set to 'Africa/Lusaka' if you do not specify a value.
