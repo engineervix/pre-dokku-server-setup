@@ -122,7 +122,7 @@ When the setup script is run, you will be prompted
   git pull origin master
   ```
 
-- [ ] Install Dokku, setup your projects and deploy 🚀
+- [ ] Install Dokku, setup your projects and deploy 🚀. I created [this gist](https://gist.github.com/engineervix/8d1825a7301239e7c4df3af78aaee9a4) to serve as a goto reference for deploying (mostly Django) applications to Dokku.
 
   ```bash
   # v0.27.6 was the latest tag at the time this README was initially written
@@ -141,6 +141,8 @@ When the setup script is run, you will be prompted
   - [Deploying an app with Dokku](https://vitobotta.com/2022/02/16/deploying-an-app-with-dokku/)
   - [Dokku Docs: Process Management](https://dokku.com/docs/processes/process-management/)
   - [Dokku Docs: Zero Downtime Deploys](https://dokku.com/docs/deployment/zero-downtime-deploys/)
+  - [Dokku with Let's Encrypt behind Cloudflare](https://spiffy.tech/dokku-with-lets-encrypt-behind-cloudflare)
+  - [Cloudflare certificates + Dokku](https://okhlopkov.com/cloudflare-certificates-dokku/)
   - [Securing Dokku with Let's Encrypt TLS Certificates](https://blog.semicolonsoftware.de/securing-dokku-with-lets-encrypt-tls-certificates/)
 
 - [ ] [Fix `apt-key` Deprecation Warning on Ubuntu](https://www.omgubuntu.co.uk/2022/06/fix-apt-key-deprecation-error-on-ubuntu)
