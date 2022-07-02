@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # =================================================================================================
-# description:  Initial Ubuntu VPS server setup prior to installation of Dokku (tested on 22.04)
+# description:  Initial Ubuntu VPS server setup prior to installation of Dokku (tested on 20.04, 22.04)
 # author:       Victor Miti <https://github.com/engineervix>
 # url:          <https://github.com/engineervix/pre-dokku-server-setup>
 # version:      0.0.0
