@@ -8,10 +8,6 @@
 ![License](https://img.shields.io/github/license/engineervix/pre-dokku-server-setup)
 [![works badge](https://cdn.jsdelivr.net/gh/nikku/works-on-my-machine@v0.2.0/badge.svg)](https://github.com/nikku/works-on-my-machine)
 
-![Important](https://source.unsplash.com/wL7aOdzTtcY/640x320)
-
-**Note** ⚠️ This is still a work in progress ... hasn't yet been tested on an actual server!
-
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -33,7 +29,7 @@ This script uses Jason Hee's excellent [Ubuntu setup script](https://github.com/
 
 **Why not just use Jason Hee's script 🤔**?
 
-Jason Hee's script is perfect! What this script does is that it adds some extra things that such as ...
+Jason Hee's script is perfect! What this script does is that it adds a bunch of extra useful things such as ...
 
 - [Zsh](https://www.zsh.org/), [ohmyzsh](https://ohmyz.sh) + [some fancy terminal enhancements](https://github.com/athityakumar/colorls)
 - [Custom Vim Distribution](https://github.com/carlhuda/janus)
@@ -46,7 +42,7 @@ Jason Hee's script is perfect! What this script does is that it adds some extra 
 
 ... so if you're not interested in these things and just want to quickly get up and running with Dokku, then use Jason Hee's script.
 
-**Note**: the script doesn't install Dokku, you have to restart the server after running this script, and login as the newly created user, then install Dokku:
+**Note**: the script doesn't install Dokku, you have to restart the server after running this script, and login as the newly created user, then install Dokku like this:
 
 ```bash
 # v0.27.6 was the latest tag at the time this README was initially written
@@ -113,19 +109,36 @@ When the setup script is run, you will be prompted
 
 - [ ] Reboot and login as the new user
 - [ ] Test your email configuration. See example below:
-- [ ] On Ubuntu 22.04, you'll need to fix your vim config, see <https://github.com/amix/vimrc/issues/645#issuecomment-1120374288>
+
+  Here's an example to test that your email works. I use the awesome [mail-tester.com](https://www.mail-tester.com) and with this configuration you should get a 10/10 score.
+
+  ```bash
+  sendmail -f sender@example.com recipient@someplace.com
+  From: sender@example.com
+  To: recipient@someplace.com
+  Subject: This looks like a test
+  Hi there, this is my message, and I am sending it to you!
+  .
+  ```
+
+- [ ] On Ubuntu 22.04, you'll need to fix your vim config as follows: (see <https://github.com/amix/vimrc/issues/645#issuecomment-1120374288>)
+
+  ```bash
+  cd ~/.vim/janus/vim/tools/tlib/plugin/ && \
+  git pull origin master
+  ```
+
 - [ ] Install Dokku, setup your projects and deploy 🚀
 
-Here's an example to test that your email works. I use the awesome [mail-tester.com](https://www.mail-tester.com) and with this configuration you should get a 10/10 score.
+  ```bash
+  # v0.27.6 was the latest tag at the time this README was initially written
+  # change to whatever the latest version will be when you read this
+  ```
 
-```bash
-sendmail -f sender@example.com recipient@someplace.com
-From: sender@example.com
-To: recipient@someplace.com
-Subject: This looks like a test
-Hi there, this is my message, and I am sending it to you!
-.
-```
+  ```bash
+  wget https://raw.githubusercontent.com/dokku/dokku/v0.27.6/bootstrap.sh && \
+  sudo DOKKU_TAG=v0.27.6 bash bootstrap.sh
+  ```
 
 ## Supported Ubuntu versions
 
