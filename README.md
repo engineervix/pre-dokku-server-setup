@@ -14,7 +14,6 @@
 - [Getting Started](#getting-started)
 - [Post setup actions](#post-setup-actions)
 - [Supported Ubuntu versions](#supported-ubuntu-versions)
-- [TODO](#todo)
 - [Running tests](#running-tests)
 - [Author](#author)
 - [Contributing 🤝](#contributing-)
@@ -110,15 +109,10 @@ When the setup script is run, you will be prompted
 - [ ] Reboot and login as the new user
 - [ ] Test your email configuration. See example below:
 
-  Here's an example to test that your email works. I use the awesome [mail-tester.com](https://www.mail-tester.com) and with this configuration you should get a 10/10 score.
+  Here's an example to test that your email works. I use the awesome [mail-tester.com](https://www.mail-tester.com) and with this configuration you should get a ~10/10 score. Remember to change **recipient@someplace.com** with whatever email address you'll get when you go to [mail-tester.com](https://www.mail-tester.com).
 
   ```bash
-  sendmail -f sender@example.com recipient@someplace.com
-  From: sender@example.com
-  To: recipient@someplace.com
-  Subject: This looks like a test
-  Hi there, this is my message, and I am sending it to you!
-  .
+  echo "Hi there, this is my test message, and I am sending it to you\!" | mutt -s "Hello from your server" recipient@someplace.com
   ```
 
 - [ ] On Ubuntu 22.04, you'll need to fix your vim config as follows: (see <https://github.com/amix/vimrc/issues/645#issuecomment-1120374288>)
@@ -140,16 +134,30 @@ When the setup script is run, you will be prompted
   sudo DOKKU_TAG=v0.27.6 bash bootstrap.sh
   ```
 
+  **Some excellent resources**:
+
+  - [How to deploy Django project to Dokku](https://www.accordbox.com/blog/how-deploy-django-project-dokku/#introduction)
+  - [Setting up Dokku with DigitalOcean and Namecheap (GitHub gist)](https://gist.github.com/djmbritt/10938092)
+  - [Deploying an app with Dokku](https://vitobotta.com/2022/02/16/deploying-an-app-with-dokku/)
+  - [Dokku Docs: Process Management](https://dokku.com/docs/processes/process-management/)
+  - [Dokku Docs: Zero Downtime Deploys](https://dokku.com/docs/deployment/zero-downtime-deploys/)
+  - [Securing Dokku with Let's Encrypt TLS Certificates](https://blog.semicolonsoftware.de/securing-dokku-with-lets-encrypt-tls-certificates/)
+
+- [ ] [Fix `apt-key` Deprecation Warning on Ubuntu](https://www.omgubuntu.co.uk/2022/06/fix-apt-key-deprecation-error-on-ubuntu)
+
+  In our case, it'll be something along these lines:
+
+  ```bash
+  sudo apt-key export 86E50310 | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/yarn.gpg && \
+  sudo apt-key export 12576482 | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/lynis.gpg && \
+  sudo apt-key export 288B3315 | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/dokku.gpg
+  ```
+
+  **Note**: better to first check with `sudo apt-key list`, as described in [How to Fix ‘apt-key’ Deprecation Warning on Ubuntu](https://www.omgubuntu.co.uk/2022/06/fix-apt-key-deprecation-error-on-ubuntu)
+
 ## Supported Ubuntu versions
 
 Jason Hee's excellent [Ubuntu setup script](https://github.com/jasonheecs/ubuntu-server-setup) has been tested against Ubuntu 14.04, Ubuntu 16.04, Ubuntu 18.04, Ubuntu 20.04 and 22.04. However, this project primarily targets **Ubuntu 20.04** and **Ubuntu 22.04** (It'll most likely also work on **18.04**).
-
-## TODO
-
-- [ ] Add notes on Dokku setup (or create a Dokku setup script)
-- [ ] Change the mail test to a one-liner
-- [ ] How to deal with `Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.`
-- [ ] Create a release
 
 ## Running tests
 
