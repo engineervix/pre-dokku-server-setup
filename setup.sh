@@ -4,7 +4,7 @@
 # description:  Initial Ubuntu VPS server setup prior to installation of Dokku (tested on 20.04, 22.04)
 # author:       Victor Miti <https://github.com/engineervix>
 # url:          <https://github.com/engineervix/pre-dokku-server-setup>
-# version:      0.0.0
+# version:      0.1.0
 # license:      MIT
 # =================================================================================================
 
