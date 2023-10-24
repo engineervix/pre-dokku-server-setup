@@ -503,8 +503,8 @@ function installExtraPackages() {
     # https://github.com/athityakumar/colorls
     gem install colorls
 
-    # https://volta.sh/
-    sudo -i -u "${username}" -H bash -c "curl https://get.volta.sh | bash"
+    # https://github.com/Schniz/fnm/
+    sudo -i -u "${username}" -H bash -c "curl -fsSL https://fnm.vercel.app/install | bash"
 
     if [[ $TEXLIVE ]]; then
         # install texlive-full
