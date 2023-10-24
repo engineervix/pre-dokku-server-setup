@@ -85,8 +85,6 @@ function main() {
     echo -e "\e[35mConfiguring System Time... \e[00m"
     configureNTP
 
-    setupNodeYarn
-
     sudo -i -u "${username}" -H bash -c "mkdir -p /home/${username}/bin"
 
     setupZSH
@@ -165,32 +163,6 @@ function extraHardening() {
     # Secure Shared Memory
     # tip 6 at https://hostadvice.com/how-to/how-to-harden-your-ubuntu-18-04-server/
     echo "none /run/shm tmpfs defaults,ro 0 0" | sudo tee -a /etc/fstab
-}
-
-function setupNodeYarn() {
-    # nodeJS
-    curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-    sudo apt-get install -y nodejs
-
-    # yarn
-    curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-    sudo apt-get update && sudo apt-get install yarn
-
-    # let's install a important global node packages
-    sudo npm install -g commitizen
-    sudo npm install -g concurrently
-    sudo npm install -g doctoc
-    sudo npm install -g html-minifier
-    sudo npm install -g gulp-cli
-    sudo npm install -g mdpdf --unsafe-perm=true --allow-root
-    sudo npm install -g mozjpeg --unsafe-perm=true --allow-root
-    sudo npm install -g npm-check
-    sudo npm install -g prettier
-    sudo npm install -g sass
-    sudo npm install -g standard-version
-    sudo npm install -g svgo
-    sudo npm install -g uglify-js
 }
 
 function setupZSH() {
