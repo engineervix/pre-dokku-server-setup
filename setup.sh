@@ -169,8 +169,22 @@ function extraHardening() {
 
 function setupNodeYarn() {
     # nodeJS
-    curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-    sudo apt-get install -y nodejs
+
+    if [ $(dpkg-query -W -f='${Status}' ca-certificates 2>/dev/null | grep -c "ok installed") -eq 0 ];
+    then
+        sudo apt install ca-certificates -y
+    fi
+
+    if [ $(dpkg-query -W -f='${Status}' gnupg 2>/dev/null | grep -c "ok installed") -eq 0 ];
+    then
+        sudo apt install gnupg -y
+    fi
+
+    sudo mkdir -p /etc/apt/keyrings
+    sudo curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+    sudo apt-get update
+    sudo apt install nodejs -y
 
     # yarn
     curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
