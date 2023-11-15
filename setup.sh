@@ -169,12 +169,12 @@ function extraHardening() {
 
 function setupNodeYarn() {
     # nodeJS
-
+    # shellcheck disable=SC2046
     if [ $(dpkg-query -W -f='${Status}' ca-certificates 2>/dev/null | grep -c "ok installed") -eq 0 ];
     then
         sudo apt install ca-certificates -y
     fi
-
+    # shellcheck disable=SC2046
     if [ $(dpkg-query -W -f='${Status}' gnupg 2>/dev/null | grep -c "ok installed") -eq 0 ];
     then
         sudo apt install gnupg -y
