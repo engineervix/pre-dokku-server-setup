@@ -484,7 +484,7 @@ function installExtraPackages() {
 
     # ffmpeg, youtube-dl and more
     sudo apt install ffmpeg -y
-    sudo apt install python3-scour yq -y
+    sudo apt install python3-scour -y
     sudo apt install libreoffice-common aspell hunspell -y
     sudo apt install jq shellcheck -y
     sudo apt install inkscape -y
