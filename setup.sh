@@ -225,9 +225,6 @@ function setupPython() {
 
     sudo apt-get install -y python3-full
 
-    # PILLOW dependencies
-    sudo apt-get install -y libffi-dev libjpeg-dev zlib1g-dev libtiff-dev libfreetype6-dev libraqm-dev libraqm0 pngquant libopenjp2-7-dev libopenjp2-7 libwebp-dev liblcms2-dev
-
     # virtualenvwrapper
     sudo -H pip3 install virtualenvwrapper
     export WORKON_HOME=/home/$username/Env
@@ -495,7 +492,7 @@ function installExtraPackages() {
     sudo apt install inkscape -y
     sudo apt install autoconf automake autotools-dev -y
     sudo apt install ocrmypdf xvfb rdiff-backup rclone apt-clone -y
-    sudo apt install pandoc sqlite3 poppler-utils ncdu libtool dos2unix -y
+    sudo apt install pngquant pandoc sqlite3 poppler-utils ncdu libtool dos2unix -y
     
     # https://github.com/travis-ci/travis.rb
     gem install travis --no-document
