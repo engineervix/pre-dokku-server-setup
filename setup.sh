@@ -234,7 +234,7 @@ function setupPython() {
     sudo -i -u "${username}" -H bash -c "echo \"# virtualenvwrapper\" >> /home/$username/.zshrc"
     sudo -i -u "${username}" -H bash -c "echo \"export WORKON_HOME=~/Env\" >> /home/$username/.zshrc"
     sudo -i -u "${username}" -H bash -c "echo \"export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3\" >> /home/$username/.zshrc"
-    sudo -i -u "${username}" -H bash -c "echo \"source /usr/local/bin/virtualenvwrapper.sh\" >> /home/$username/.zshrc"
+    sudo -i -u "${username}" -H bash -c "echo \"source /usr/share/virtualenvwrapper/virtualenvwrapper.sh\" >> /home/$username/.zshrc"
     sudo -i -u "${username}" -H bash -c "echo \"\" >> /home/$username/.zshrc"
 }
 
@@ -490,7 +490,7 @@ function installExtraPackages() {
     sudo apt install inkscape -y
     sudo apt install autoconf automake autotools-dev -y
     sudo apt install ocrmypdf xvfb rdiff-backup rclone apt-clone -y
-    sudo apt install pngquant pandoc sqlite3 poppler-utils ncdu libtool dos2unix -y
+    sudo apt install plocate pngquant pandoc sqlite3 poppler-utils ncdu libtool dos2unix -y
     
     # https://github.com/travis-ci/travis.rb
     gem install travis --no-document
