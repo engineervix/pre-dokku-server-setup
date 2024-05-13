@@ -223,10 +223,10 @@ function setupPython() {
     # some essentials (based on https://github.com/pyenv/pyenv/wiki#suggested-build-environment)
     sudo apt-get install --no-install-recommends make net-tools build-essential libssl-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev xz-utils libxml2-dev libxmlsec1-dev liblzma-dev -y
 
-    sudo apt-get install -y python3-pip  # also installs python3-dev
+    sudo apt-get install -y python3-full
 
     # PILLOW dependencies
-    sudo apt-get install -y libffi-dev libjpeg-dev zlib1g-dev libtiff-dev libfreetype6-dev libraqm-dev libraqm0 pngquant libopenjp2-7-dev libopenjp2-7 tk-dev libwebp-dev liblcms2-dev
+    sudo apt-get install -y libffi-dev libjpeg-dev zlib1g-dev libtiff-dev libfreetype6-dev libraqm-dev libraqm0 pngquant libopenjp2-7-dev libopenjp2-7 libwebp-dev liblcms2-dev
 
     # virtualenvwrapper
     sudo -H pip3 install virtualenvwrapper
