@@ -226,7 +226,7 @@ function setupPython() {
     sudo apt-get install -y python3-full python3-pip
 
     # virtualenvwrapper
-    sudo -H pip3 install virtualenvwrapper
+    sudo apt-get install python3-virtualenvwrapper -y
     export WORKON_HOME=/home/$username/Env
     sudo mkdir -p "$WORKON_HOME" && sudo chown -R "${username}":"${username}" /home/"${username}"/Env/
 
@@ -240,7 +240,7 @@ function setupPython() {
 
 function setupVim() {
     # Vim setup
-    sudo -u "${username}" -H bash -c "sudo -H pip3 install powerline-status"
+    sudo -u "${username}" -H bash -c "sudo apt-get install python3-powerline -y"
     sudo apt-get install vim-nox -y
     sudo -u "${username}" -H bash -c "curl -L https://gist.githubusercontent.com/engineervix/d9cef5adb520b6c2f2ee0e01e5280f1e/raw/8730b81fb4b18eb4476976520de9672d3335eaee/janus_setup.sh | bash"
     pushd "$HOME"/pre-dokku-server-setup/
@@ -484,9 +484,7 @@ function installExtraPackages() {
 
     # ffmpeg, youtube-dl and more
     sudo apt install ffmpeg -y
-    sudo -H pip3 install youtube-dl
-    sudo -H pip3 install scour
-    sudo -H pip3 install yq
+    sudo apt install python3-scour yq -y
     sudo apt install libreoffice-common aspell hunspell -y
     sudo apt install jq shellcheck -y
     sudo apt install inkscape -y
