@@ -33,22 +33,12 @@ set encoding=utf-8
 "Set to whatever font you like.
 set guifont=MesloLGS\ NF\ Regular:h17
 
-" Virtualenv support
-py3 << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  exec(compile(open(activate_this, "rb").read(), activate_this, 'exec'), dict(__file__=activate_this))
-EOF
-
-python3 from powerline.vim import setup as powerline_setup
-python3 powerline_setup()
-python3 del powerline_setup
- 
-"Important for terminal vim to work in cygwin.
+"Colours
 set term=xterm-256color
+
+"Airline
+"let g:Powerline_symbols = 'fancy'
+"set noshowmode
 
 let g:syntastic_rst_checkers = ['rstcheck']
 set wrap

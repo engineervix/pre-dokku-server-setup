@@ -100,7 +100,7 @@ function main() {
         setupMailwithMailJet
         configureUpdatesNotificationsAndLogwatch
     fi
-    configureUnattendedUpgrades
+    # configureUnattendedUpgrades
     furtherHardening
     miscellaneousTasks
     installExtraPackages
@@ -245,6 +245,7 @@ function setupVim() {
     sudo -u "${username}" -H bash -c "curl -L https://gist.githubusercontent.com/engineervix/d9cef5adb520b6c2f2ee0e01e5280f1e/raw/8730b81fb4b18eb4476976520de9672d3335eaee/janus_setup.sh | bash"
     pushd "$HOME"/pre-dokku-server-setup/
     sudo cp -rv "$HOME"/pre-dokku-server-setup/.janus/ /home/"${username}"/ && sudo chown -R "${username}":"${username}" /home/"${username}"/.janus/
+    sudo cp -v "$HOME"/pre-dokku-server-setup/extras/.vimrc.before /home/"${username}"/ && sudo chown -R "${username}":"${username}" /home/"${username}"/.vimrc.before
     sudo cp -v "$HOME"/pre-dokku-server-setup/extras/.vimrc.after /home/"${username}"/ && sudo chown -R "${username}":"${username}" /home/"${username}"/.vimrc.after
 }
 
@@ -427,9 +428,9 @@ function furtherHardening() {
     sudo apt install fail2ban -y
     sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
     echo -e "\e[35m===========================================================\e[00m"
-    echo -e "\e[35mNow updating the /etc/fail2ban/jail.local file ...\e[00m"
-    sudo sed -i "s/^destemail\ =\ root@localhost/destemail\ =\ $root_email/" /etc/fail2ban/jail.local
-    sudo sed -i "s/^sender\ =\ root@<fq-hostname>/sender\ =\ $mail_from/" /etc/fail2ban/jail.local
+    # echo -e "\e[35mNow updating the /etc/fail2ban/jail.local file ...\e[00m"
+    # sudo sed -i "s/^destemail\ =\ root@localhost/destemail\ =\ $root_email/" /etc/fail2ban/jail.local
+    # sudo sed -i "s/^sender\ =\ root@<fq-hostname>/sender\ =\ $mail_from/" /etc/fail2ban/jail.local
     echo -e "\e[35menabling sshd ...\e[00m"
     sudo sed -i '/^\[sshd\]/a enabled\ =\ true' /etc/fail2ban/jail.local
     echo -e "\e[35m===========================================================\e[00m"
@@ -456,11 +457,11 @@ function miscellaneousTasks() {
     sudo -i -u "${username}" -H bash -c "mkdir -p /home/${username}/Downloads"
     sudo -i -u "${username}" -H bash -c "mkdir -p /home/${username}/_TEMP"
 
-    # bring in the custom scripts and geckodriver (for selenium)
+    # bring in the custom scripts
     sudo cp -v extras/shrinkpdf /home/"${username}"/bin/
-    sudo wget https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz -O /home/"${username}"/bin/geckodriver-v0.29.1-linux64.tar.gz
-    sudo tar -xvf /home/"${username}"/bin/geckodriver-v0.29.1-linux64.tar.gz -C /home/"${username}"/bin/
-    sudo rm -v /home/"${username}"/bin/geckodriver-v0.29.1-linux64.tar.gz
+    # sudo wget https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz -O /home/"${username}"/bin/geckodriver-v0.29.1-linux64.tar.gz
+    # sudo tar -xvf /home/"${username}"/bin/geckodriver-v0.29.1-linux64.tar.gz -C /home/"${username}"/bin/
+    # sudo rm -v /home/"${username}"/bin/geckodriver-v0.29.1-linux64.tar.gz
 
     sudo chown -R "${username}":"${username}" /home/"${username}"/bin/
 }
