@@ -370,6 +370,8 @@ function configureUpdatesNotificationsAndLogwatch() {
     sudo cp -v extras/apticron.conf /etc/apticron/apticron.conf
     echo "to be notified (via email) of any impending updates, I'll update \e[35mEMAIL=\e[00m ..."
     sudo sed -i "s/^EMAIL=\"\"/EMAIL=\"$root_email\"/" /etc/apticron/apticron.conf
+    # only output the difference of the current run compared to the last run
+    sudo sed -i "s/^DIFF_ONLY=\"0\"/DIFF_ONLY=\"1\"/" /etc/apticron/apticron.conf
     echo -e "\e[35m===========================================================\e[00m"
 
     # logwatch
@@ -386,12 +388,14 @@ function configureUpdatesNotificationsAndLogwatch() {
     echo "	Format = html"
     echo "	MailTo = me@example.com"
     echo "	MailFrom = email@example.com"
-    echo "	Detail = High|Med"
+    # echo "	Detail = High|Med"
     sudo sed -i 's/^Output\ =\ stdout/Output\ =\ mail/' /etc/logwatch/conf/logwatch.conf
     sudo sed -i 's/^Format\ =\ text/Format\ =\ html/' /etc/logwatch/conf/logwatch.conf
     sudo sed -i "s/^MailTo\ =\ root/MailTo\ =\ $root_email/" /etc/logwatch/conf/logwatch.conf
     sudo sed -i "s/^MailFrom\ =\ Logwatch/MailFrom\ =\ $mail_from/" /etc/logwatch/conf/logwatch.conf
-    sudo sed -i 's/^Detail\ =\ Low/Detail\ =\ Med/' /etc/logwatch/conf/logwatch.conf
+    # we don't need too many details, so let's keep the default (Low).
+    # Uncomment the following line if you want to see more details
+    # sudo sed -i 's/^Detail\ =\ Low/Detail\ =\ Med/' /etc/logwatch/conf/logwatch.conf
     echo -e "\e[35m===========================================================\e[00m"
 }
 
