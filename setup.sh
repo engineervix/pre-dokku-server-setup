@@ -493,9 +493,6 @@ function installExtraPackages() {
     sudo apt install ocrmypdf xvfb rdiff-backup rclone apt-clone -y
     sudo apt install plocate pngquant pandoc sqlite3 poppler-utils ncdu libtool dos2unix -y
     
-    # https://github.com/travis-ci/travis.rb
-    gem install travis --no-document
-
     # https://github.com/athityakumar/colorls
     gem install colorls
 
