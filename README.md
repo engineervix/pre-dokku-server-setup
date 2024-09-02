@@ -171,7 +171,7 @@ Tests are run against a set of Vagrant VMs. To run the tests, run the following 
 
 👤 **Victor Miti**
 
-- Blog: <https://importthis.tech>
+- Blog: <https://blog.victor.co.zm>
 - Twitter: [![Twitter: engineervix](https://img.shields.io/twitter/follow/engineervix.svg?style=social)](https://twitter.com/engineervix)
 - Github: [@engineervix](https://github.com/engineervix)
 
