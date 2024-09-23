@@ -36,7 +36,7 @@ parser.add_argument('-s', '--sendgrid', action='store_true',
                     default=False, help='setup mail with Sendgrid [default %(default)s]')
 parser.add_argument('-m', '--mailjet', action='store_true',
                     default=False, help='setup mail with MailJet [default %(default)s]')
-parser.add_argument('-m', '--brevo', action='store_true',
+parser.add_argument('-b', '--brevo', action='store_true',
                     default=False, help='setup mail with Brevo [default %(default)s]')
 parser.add_argument('-t', '--texlive', action='store_true',
                     default=False, help='install texlive-full [default %(default)s]')
