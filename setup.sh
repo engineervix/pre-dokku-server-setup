@@ -36,12 +36,14 @@ parser.add_argument('-s', '--sendgrid', action='store_true',
                     default=False, help='setup mail with Sendgrid [default %(default)s]')
 parser.add_argument('-m', '--mailjet', action='store_true',
                     default=False, help='setup mail with MailJet [default %(default)s]')
+parser.add_argument('-m', '--brevo', action='store_true',
+                    default=False, help='setup mail with Brevo [default %(default)s]')
 parser.add_argument('-t', '--texlive', action='store_true',
                     default=False, help='install texlive-full [default %(default)s]')
 EOF
 
-if [[ $SENDGRID && $MAILJET ]]; then
-    echo -e "\e[31mYou cannot select both Sendgrid & MailJet... \e[00m"
+if (( ${#SENDGRID} + ${#MAILJET} + ${#BREVO} > 1 )); then
+    echo -e "\e[31mYou cannot select more than one email provider (Sendgrid, MailJet, or Brevo)... \e[00m"
     exit 1
 fi
 
@@ -98,6 +100,10 @@ function main() {
     fi
     if [[ $MAILJET ]]; then
         setupMailwithMailJet
+        configureUpdatesNotificationsAndLogwatch
+    fi
+    if [[ $BREVO ]]; then
+        setupMailwithBrevo
         configureUpdatesNotificationsAndLogwatch
     fi
     configureUnattendedUpgrades
@@ -359,6 +365,62 @@ function setupMailwithMailJet() {
     sudo postfix reload
 }
 
+function setupMailwithBrevo() {
+
+    read -rp 'email address for root (dest email)?: ' root_email 
+    read -rp 'email address for sending mail (from email)?: ' mail_from 
+    brevo_domain=${mail_from#*@*}
+    system_hostname=$(hostname)
+
+    sudo debconf-set-selections <<< "postfix postfix/mailname string ${brevo_domain}"
+    sudo debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
+
+    # Install Postfix
+    sudo apt-get install libsasl2-modules postfix -y
+    sudo apt-mark auto libsasl2-modules
+    sudo apt install mailutils -y
+
+    # Install mutt
+    sudo apt install mutt -y
+
+    # First, let's deal with /etc/postfix/main.cf
+    [ -f /etc/postfix/main.cf ] && sudo mv -v /etc/postfix/main.cf /etc/postfix/main.cf.bak
+    sudo cp -v extras/brevo/postfix_main.cf /etc/postfix/main.cf
+    sudo sed -i "s/CHANGE_THIS_TO_HOSTNAME/${system_hostname}/g" /etc/postfix/main.cf
+    sudo sed -i "s/CHANGETHIS_TO_BREVO_DOMAIN/${brevo_domain}/g" /etc/postfix/main.cf
+
+    # /etc/mailname already has ${brevo_domain}, so we don't mess with it
+
+    # Now, we deal with /etc/postfix/sasl_passwd
+    echo -e "\e[35m===========================================================\e[00m" 
+    echo -e "\e[35m Please provide your Brevo API key for Postfix to use. \e[00m" 
+    echo -e "\e[35m NOTE: It will not be displayed in the terminal when you type / paste it in\e[00m"
+    # shellcheck disable=SC2162
+    read -s -p 'Brevo API key?: ' brevo_api_key
+    # shellcheck disable=SC2162
+    read -s -p 'Brevo Secret key?: ' brevo_secret_key
+    echo "[smtp-relay.brevo.com]:587 ${brevo_api_key}:${brevo_secret_key}" | sudo dd of=/etc/postfix/sasl_passwd
+    echo -e "\e[35m===========================================================\e[00m" 
+
+    sudo postmap hash:/etc/postfix/sasl_passwd
+    sudo chown root:root /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
+    sudo chmod 0600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
+
+    # aliases
+    echo "" | sudo tee -a /etc/aliases
+    echo "root: ${root_email}" | sudo tee -a /etc/aliases
+    sudo newaliases
+
+    # canonical_maps
+    echo "/.+/    ${mail_from}" | sudo tee /etc/postfix/sender_canonical_maps
+
+    # header_check
+    echo "/From:.*/ REPLACE From: ${mail_from}" | sudo tee /etc/postfix/header_check
+
+    # reload postfix
+    sudo postfix reload
+}
+
 function configureUpdatesNotificationsAndLogwatch() {
     # Updates notification and other necessary sysadmin stuff
 
@@ -447,7 +509,7 @@ function furtherHardening() {
     sudo apt update
     sudo apt install lynis -y
 
-    if [[ $SENDGRID || $MAILJET ]]; then
+    if [[ $SENDGRID || $MAILJET || $BREVO ]]; then
         # https://www.theurbanpenguin.com/detecting-rootkits-with-rkhunter-in-ubuntu-18-04/
         sudo apt install -y rkhunter
     fi
