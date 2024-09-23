@@ -70,12 +70,13 @@ sudo DOKKU_TAG=v0.27.6 bash bootstrap.sh
    **Note**: If you run the script with no arguments, it will neither setup `postfix` on your server nor download `texlive-full`. The following optional arguments are available (for help, you can simply run `bash setup.sh -h` or `bash setup.sh --help`):
 
    ```shell
-   --mailjet   # setup postfix with MailJest
-   --sendgrid  # setup postfix with Sendgrid
+   --mailjet   # setup postfix with [Mailjet](https://www.mailjet.com/)
+   --sendgrid  # setup postfix with [Sendgrid](https://sendgrid.com/)
+   --brevo  # setup postfix with [Brevo](https://www.brevo.com/)
    --texlive   # install texlive-full
    ```
 
-   **Note**: if you select both `--mailjet` and `--sendgrid`, the script will terminate with an `exit 1` code, and you'd have to try again.
+   **Note**: if you select multiple postfix setup options, the script will terminate with an `exit 1` code, and you'd have to try again.
 
 When the setup script is run, you will be prompted
 
@@ -187,6 +188,6 @@ Please give a ⭐️ if you found this project helpful!
 
 ## License 📝
 
-Copyright © 2022 [Victor Miti](https://github.com/engineervix).
+Copyright © 2022 - 2024 [Victor Miti](https://github.com/engineervix).
 
 This project is licensed under the terms of the [MIT](https://github.com/engineervix/pre-dokku-server-setup/blob/main/LICENSE) license.

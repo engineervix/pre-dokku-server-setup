@@ -70,3 +70,6 @@ smtp_header_checks = regexp:/etc/postfix/header_check
 
 message_size_limit = 25600000
 
+# for debugging
+debug_peer_list = smtp-relay.brevo.com
+smtp_tls_loglevel = 2

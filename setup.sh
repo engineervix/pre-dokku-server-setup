@@ -393,13 +393,13 @@ function setupMailwithBrevo() {
 
     # Now, we deal with /etc/postfix/sasl_passwd
     echo -e "\e[35m===========================================================\e[00m" 
-    echo -e "\e[35m Please provide your Brevo API key for Postfix to use. \e[00m" 
+    echo -e "\e[35m Please provide your Brevo authentication details for Postfix to use. \e[00m" 
     echo -e "\e[35m NOTE: It will not be displayed in the terminal when you type / paste it in\e[00m"
     # shellcheck disable=SC2162
-    read -s -p 'Brevo API key?: ' brevo_api_key
+    read -s -p 'Brevo username? (e.g. *******@smtp-brevo.com): ' brevo_username
     # shellcheck disable=SC2162
-    read -s -p 'Brevo Secret key?: ' brevo_secret_key
-    echo "[smtp-relay.brevo.com]:587 ${brevo_api_key}:${brevo_secret_key}" | sudo dd of=/etc/postfix/sasl_passwd
+    read -s -p 'Brevo Password?: ' brevo_password
+    echo "[smtp-relay.brevo.com]:587 ${brevo_username}:${brevo_password}" | sudo dd of=/etc/postfix/sasl_passwd
     echo -e "\e[35m===========================================================\e[00m" 
 
     sudo postmap hash:/etc/postfix/sasl_passwd
