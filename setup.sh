@@ -42,7 +42,7 @@ parser.add_argument('-t', '--texlive', action='store_true',
                     default=False, help='install texlive-full [default %(default)s]')
 EOF
 
-if (( ${#SENDGRID} + ${#MAILJET} + ${#BREVO} > 1 )); then
+if (( SENDGRID + MAILJET + BREVO > 1 )); then
     echo -e "\e[31mYou cannot select more than one email provider (Sendgrid, MailJet, or Brevo)... \e[00m"
     exit 1
 fi
