@@ -2,6 +2,10 @@
 
 > Initial Ubuntu VPS server setup prior to installation of [Dokku](https://dokku.com/).
 
+> [!WARNING]
+> **This repository is archived and no longer maintained.**
+> I now typically use terraform-based tooling. Please see [engineervix/provisioner](https://github.com/engineervix/provisioner) for an example.
+
 [![ShellCheck](https://github.com/engineervix/pre-dokku-server-setup/actions/workflows/main.yml/badge.svg)](https://github.com/engineervix/pre-dokku-server-setup/actions/workflows/main.yml)
 [![last commit](https://img.shields.io/github/last-commit/engineervix/pre-dokku-server-setup)](https://github.com/engineervix/pre-dokku-server-setup/commits/)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
